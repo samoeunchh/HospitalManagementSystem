@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using HospitalManagementSystem.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace HospitalManagementSystem.Data
@@ -9,5 +10,6 @@ namespace HospitalManagementSystem.Data
             : base(options)
         {
         }
+        public DbSet<Room> Room { get; set; }
     }
 }
