@@ -11,5 +11,7 @@ namespace HospitalManagementSystem.Data
         {
         }
         public DbSet<Room> Room { get; set; }
+        public DbSet<Patient> Patient { get; set; }
+        public DbSet<Position> Position { get; set; }
     }
 }
