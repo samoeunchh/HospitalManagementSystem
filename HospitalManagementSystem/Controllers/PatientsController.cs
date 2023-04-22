@@ -48,7 +48,28 @@ namespace HospitalManagementSystem.Controllers
         {
             return View();
         }
-
+        public async Task<IActionResult> VitalSign(Guid Id)
+        {
+            var patient = await _context.Patient.FindAsync(Id);
+            ViewData["Patient"] = patient.PatientId;
+            ViewData["Staffs"] = new SelectList(_context.Staff, "StaffId", "StaffName");
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> VitalSign(VitalSign vital)
+        {
+            if (ModelState.IsValid)
+            {
+                vital.VitalSignId = Guid.NewGuid();
+                _context.Add(vital);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["Patient"] = vital.PatientId;
+            ViewData["Staffs"] = new SelectList(_context.Staff, "StaffId", "StaffName",vital.NurseId);
+            return View(vital);
+        }
         // POST: Patients/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.

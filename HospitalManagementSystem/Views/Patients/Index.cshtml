@@ -55,6 +55,7 @@
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
             <td>
+                <a asp-action="VitalSign" asp-route-id="@item.PatientId">Vital Sign</a> |
                 <a asp-action="Edit" asp-route-id="@item.PatientId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.PatientId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.PatientId">Delete</a>
