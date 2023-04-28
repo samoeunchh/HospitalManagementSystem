@@ -48,6 +48,37 @@
         </dd>
     </dl>
 </div>
+<hr />
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nurse</th>
+                <th>Iss Date</th>
+                <th>Temp</th>
+                <th>Weight</th>
+                <th>Heart</th>
+                <th>BloodPres</th>
+                <th>Noted</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.VitalSigns as List<VitalSignViewModel>)
+            {
+                <tr>
+                    <td>@item.Nurse</td>
+                    <td>@item.IssueDate</td>
+                    <td>@item.Temp</td>
+                    <td>@item.Weight</td>
+                    <td>@item.Heart</td>
+                    <td>@item.BloodPres</td>
+                    <td>@item.Noted</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+   
+</div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.PatientId">Edit</a> |
     <a asp-action="Index">Back to List</a>

@@ -35,6 +35,18 @@ namespace HospitalManagementSystem.Controllers
 
             var patient = await _context.Patient
                 .FirstOrDefaultAsync(m => m.PatientId == id);
+            ViewData["VitalSigns"] = await (from v in _context.VitalSign
+                                            join n in _context.Staff on v.NurseId equals n.StaffId
+                                            where v.PatientId.Equals(id)
+                                            select new VitalSignViewModel
+                                            {
+                                                Nurse = n.StaffName,
+                                                IssueDate = v.IssueDate,
+                                                Heart = v.Heart,
+                                                Temp =  v.Temp,
+                                                BloodPres = v.BloodPres,
+                                                Noted= v.Noted
+                                            }).ToListAsync();
             if (patient == null)
             {
                 return NotFound();
@@ -51,7 +63,8 @@ namespace HospitalManagementSystem.Controllers
         public async Task<IActionResult> VitalSign(Guid Id)
         {
             var patient = await _context.Patient.FindAsync(Id);
-            ViewData["Patient"] = patient.PatientId;
+            ViewData["PatientId"] = patient.PatientId;
+            ViewData["PatientName"] = patient.PatientName;
             ViewData["Staffs"] = new SelectList(_context.Staff, "StaffId", "StaffName");
             return View();
         }
