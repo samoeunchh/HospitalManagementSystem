@@ -47,6 +47,17 @@ namespace HospitalManagementSystem.Controllers
                                                 BloodPres = v.BloodPres,
                                                 Noted= v.Noted
                                             }).ToListAsync();
+            ViewData["CheckUp"]= await (from v in _context.CheckUp
+                                        join s in _context.Staff on v.DoctorId equals s.StaffId
+                                        where v.PatientId.Equals(id)
+                                        select new CheckUpViewModel
+                                        {
+                                            Doctor=s.StaffName,
+                                            IssueDate=v.IssueDate,
+                                            PatientId=v.PatientId,
+                                            CheckUpId=v.CheckUpId,
+                                            Noted=v.Noted
+                                        }).ToListAsync();
             if (patient == null)
             {
                 return NotFound();
@@ -67,6 +78,29 @@ namespace HospitalManagementSystem.Controllers
             ViewData["PatientName"] = patient.PatientName;
             ViewData["Staffs"] = new SelectList(_context.Staff, "StaffId", "StaffName");
             return View();
+        }
+        public async Task<IActionResult> CheckUp(Guid Id)
+        {
+            var patient = await _context.Patient.FindAsync(Id);
+            ViewData["PatientId"] = patient.PatientId;
+            ViewData["PatientName"] = patient.PatientName;
+            ViewData["Staffs"] = new SelectList(_context.Staff, "StaffId", "StaffName");
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CheckUp(CheckUp checkup)
+        {
+            if (ModelState.IsValid)
+            {
+                checkup.CheckUpId = Guid.NewGuid();
+                _context.Add(checkup);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["Patient"] = checkup.PatientId;
+            ViewData["Staffs"] = new SelectList(_context.Staff, "StaffId", "StaffName", checkup.DoctorId);
+            return View(checkup);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

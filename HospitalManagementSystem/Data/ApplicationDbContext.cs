@@ -15,5 +15,6 @@ namespace HospitalManagementSystem.Data
         public DbSet<Position> Position { get; set; }
         public DbSet<Staff> Staff { get; set; }
         public DbSet<VitalSign> VitalSign { get; set; }
+        public DbSet<CheckUp> CheckUp { get; set; }
     }
 }

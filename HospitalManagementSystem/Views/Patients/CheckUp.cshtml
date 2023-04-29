@@ -1,0 +1,47 @@
+﻿@model HospitalManagementSystem.Models.CheckUp
+
+@{
+    ViewData["Title"] = "Checkup";
+}
+
+<h4>Check up</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CheckUp">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="PatientId" value="@ViewBag.PatientId" type="hidden" />
+            <div class="form-group">
+                Patient Name: @ViewData["PatientName"]
+            </div>
+            <div class="form-group">
+                <label asp-for="DoctorId" class="control-label"></label>
+                <select asp-for="DoctorId" class="form-control" asp-items="@ViewBag.Staffs"></select>
+                <span asp-validation-for="DoctorId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IssueDate" class="control-label"></label>
+                <input asp-for="IssueDate" class="form-control" />
+                <span asp-validation-for="IssueDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Noted" class="control-label"></label>
+                <textarea asp-for="Noted" class="form-control"></textarea>
+                <span asp-validation-for="Noted" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
